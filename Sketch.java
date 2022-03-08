@@ -46,13 +46,13 @@ public class Sketch extends PApplet {
     xDraw ++;
     double yDraw = inversion*(xDraw - xStartPos)*(xDraw - xStartPos);
 
-    if (m < 20) {
+    if (s < 20) {
       stroke((float) xDraw * s, (float) yDraw * s, (float) s);
     }
-    if (m >= 20 && m <= 40) {
+    if (s >= 20 && s <= 40) {
       stroke((float) s, (float) xDraw * s, (float) yDraw * s);
     }
-    if (m > 40) {
+    if (s > 40) {
       stroke((float) yDraw * s, (float) s, (float) xDraw * s);
     }
 
