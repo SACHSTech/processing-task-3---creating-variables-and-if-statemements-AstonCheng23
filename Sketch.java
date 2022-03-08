@@ -2,35 +2,70 @@ import processing.core.PApplet;
 
 public class Sketch extends PApplet {
 	
-	
-  /**
-   * Called once at the beginning of execution, put your size all in this method
-   */
-  public void settings() {
-	// put your size call here
-    size(400, 400);
-  }
+  float xDraw = 0; 
 
-  /** 
-   * Called once at the beginning of execution.  Add initial set up
-   * values here i.e background, stroke, fill etc.
-   */
-  public void setup() {
-    background(210, 255, 173);
-  }
+  float xStartPos = random(0, 800);
+  float yStartPos = random(0, 800);
 
-  /**
-   * Called repeatedly, anything drawn to the screen goes here
-   */
-  public void draw() {
-	  
-	// sample code, delete this stuff
-    stroke(128);
-    line(150, 25, 270, 350);  
-
-    stroke(255);
-    line(50, 125, 70, 50);  
-  }
+  boolean limit = true;
+  boolean stop = false;
   
-  // define other methods down here.
+  int radius = 100;
+  double inversion = 0.01;
+
+  public void settings() {
+    size(800, 800);
+  }
+  public void setup() {
+    background(0, 0, 0);
+  }
+
+  public void draw() {
+
+    int s = second();  // Values from 0 - 59
+    int m = minute();  // Values from 0 - 59
+    int h = hour();    // Values from 0 - 23
+    //copied straight from https://processing.org/reference/second_.html
+    
+    stroke(0);
+    text(s, s * 13, 33);
+    
+    stroke(255);
+    text(m, m * 13, 66);
+    
+    stroke(255);
+    text(h, h * 33, 99);
+
+    // why is this making other text commands black?
+/*    if (s == 59){
+      stroke(0, 0, 0);
+      fill(0, 0, 0);
+      rect(0, 0, 800, 33);
+    }
+*/
+    xDraw ++;
+    double yDraw = inversion*(xDraw - xStartPos)*(xDraw - xStartPos);
+
+    if (s < 20) {
+      stroke((float) xDraw * s, (float) yDraw * s, (float) s);
+    }
+    if (s >= 20 && s <= 40) {
+      stroke((float) s, (float) xDraw * s, (float) yDraw * s);
+    }
+    if (s > 40) {
+      stroke((float) yDraw * s, (float) s, (float) xDraw * s);
+    }
+
+    line(xStartPos, yStartPos, (float) xDraw, (float) yDraw);  
+
+  // for some reason, it doesn't stop stuff when yDraw is < 0
+    if (xDraw > 800 || yDraw < 0) {
+      stop = true;      
+    }
+    while (stop == true){
+      xDraw = 0;
+      stop = false;
+    }
+
+  }
 }
